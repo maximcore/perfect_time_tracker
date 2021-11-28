@@ -4,8 +4,8 @@ class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
     Key key,
     this.color,
-    this.borderRadius: 8.0,
-    this.height: 50.0,
+    this.borderRadius = 8.0,
+    this.height = 50.0,
     this.onPressed,
     this.child,
   })  : assert(height != null),

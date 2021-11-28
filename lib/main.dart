@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:perfect_time_tracker/app/sign_in/sign_in_page.dart';
+import 'package:perfect_time_tracker/app/landing_page.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Perfect Time Tracker',
       theme: ThemeData(primarySwatch: Colors.indigo),
-      home: const SignInPage(),
+      home: const LandingPage(),
     );
   }
 }
