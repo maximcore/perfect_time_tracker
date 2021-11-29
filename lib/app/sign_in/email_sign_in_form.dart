@@ -3,6 +3,7 @@ import 'package:perfect_time_tracker/app/sign_in/validators.dart';
 import 'package:perfect_time_tracker/common_widgets/form_submit_button.dart';
 import 'package:perfect_time_tracker/common_widgets/show_alert_dialog.dart';
 import 'package:perfect_time_tracker/services/auth.dart';
+import 'package:provider/provider.dart';
 
 enum EmailSignInFormType {
   signIn,
@@ -10,9 +11,6 @@ enum EmailSignInFormType {
 }
 
 class EmailSignInForm extends StatefulWidget with EmailAndPasswordValidators {
-  EmailSignInForm({Key key, @required this.auth}) : super(key: key);
-
-  final AuthBase auth;
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
 }
@@ -38,10 +36,14 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       _isLoading = true;
     });
     try {
+      final auth = Provider.of<AuthBase>(
+        context,
+        listen: false,
+      );
       if (_formType == EmailSignInFormType.signIn) {
-        await widget.auth.signInWithEmailAndPassword(_email, _password);
+        await auth.signInWithEmailAndPassword(_email, _password);
       } else {
-        await widget.auth.signUpWithEmailAndPassword(_email, _password);
+        await auth.signUpWithEmailAndPassword(_email, _password);
       }
       Navigator.of(context).pop();
     } catch (e) {
