@@ -1,7 +1,7 @@
 name: perfect_time_tracker
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -12,11 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   cupertino_icons: ^1.0.2
   firebase_auth: ^3.2.0
   firebase_core: ^1.10.0
   google_sign_in: ^5.2.1
+  provider: 4.3.2+2
 
 dev_dependencies:
   flutter_test:
@@ -25,10 +25,8 @@ dev_dependencies:
   flutter_lints: ^1.0.0
 
 flutter:
-
   uses-material-design: true
 
   assets:
-   - images/google-logo.png
-   - images/facebook-logo.png
-
+    - images/google-logo.png
+    - images/facebook-logo.png

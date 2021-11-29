@@ -5,25 +5,27 @@ import 'package:perfect_time_tracker/app/sign_in/email_sign_in_page.dart';
 import 'package:perfect_time_tracker/app/sign_in/sign_in_button.dart';
 import 'package:perfect_time_tracker/app/sign_in/social_sign_in_button.dart';
 import 'package:perfect_time_tracker/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({
-    Key key,
-    @required this.auth,
-  }) : super(key: key);
-
-  final AuthBase auth;
-
-  Future<void> _signInWithGoogle() async {
+  Future<void> _signInWithGoogle(BuildContext context) async {
     try {
+      final auth = Provider.of<AuthBase>(
+        context,
+        listen: false,
+      );
       await auth.signInWithGoogle();
     } catch (e) {
       log(e.toString());
     }
   }
 
-  Future<void> _signInAnonymously() async {
+  Future<void> _signInAnonymously(BuildContext context) async {
     try {
+      final auth = Provider.of<AuthBase>(
+        context,
+        listen: false,
+      );
       await auth.signInAnonymously();
     } catch (e) {
       log(e.toString());
@@ -33,9 +35,7 @@ class SignInPage extends StatelessWidget {
   void _signInWithEmail(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => EmailSignInPage(
-          auth: auth,
-        ),
+        builder: (context) => EmailSignInPage(),
       ),
     );
   }
@@ -76,7 +76,7 @@ class SignInPage extends StatelessWidget {
             color: Colors.white,
             text: 'Sign in with Google',
             textColor: Colors.black87,
-            onPressed: _signInWithGoogle,
+            onPressed: () => _signInWithGoogle(context),
             assetName: 'images/google-logo.png',
           ),
           const SizedBox(
@@ -118,7 +118,7 @@ class SignInPage extends StatelessWidget {
             color: Colors.blue,
             text: 'Go anonymous',
             textColor: Colors.black,
-            onPressed: _signInAnonymously,
+            onPressed: () => _signInAnonymously(context),
           ),
         ],
       ),
