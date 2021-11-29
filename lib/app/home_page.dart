@@ -6,17 +6,13 @@ import 'package:perfect_time_tracker/services/auth.dart';
 class HomePage extends StatelessWidget {
   const HomePage({
     Key key,
-    @required this.onSignOut,
     @required this.auth,
   }) : super(key: key);
   final AuthBase auth;
 
-  final VoidCallback onSignOut;
-
   Future<void> _signOut() async {
     try {
       await auth.signOut();
-      onSignOut();
     } catch (e) {
       log(e.toString());
     }
