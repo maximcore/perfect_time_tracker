@@ -13,6 +13,14 @@ class SignInPage extends StatelessWidget {
 
   final AuthBase auth;
 
+  Future<void> _signInWithGoogle() async {
+    try {
+      await auth.signInWithGoogle();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   Future<void> _signInAnonymously() async {
     try {
       await auth.signInAnonymously();
@@ -55,7 +63,7 @@ class SignInPage extends StatelessWidget {
             color: Colors.white,
             text: 'Sign in with Google',
             textColor: Colors.black87,
-            onPressed: () {},
+            onPressed: _signInWithGoogle,
             assetName: 'images/google-logo.png',
           ),
           const SizedBox(
