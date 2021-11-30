@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:perfect_time_tracker/app/sign_in/validators.dart';
 import 'package:perfect_time_tracker/common_widgets/form_submit_button.dart';
-import 'package:perfect_time_tracker/common_widgets/show_alert_dialog.dart';
+import 'package:perfect_time_tracker/common_widgets/show_exception_alert_dialog.dart';
 import 'package:perfect_time_tracker/services/auth.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,15 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   bool _submitted = false;
   bool _isLoading = false;
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
   Future<void> _submit() async {
     setState(() {
       _submitted = true;
@@ -46,14 +56,13 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         await auth.signUpWithEmailAndPassword(_email, _password);
       }
       Navigator.of(context).pop();
-    } catch (e) {
-      showAlertDialog(
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+      showExceptionAlertDialog(
         context,
-        content: e.toString(),
+        exception: e,
         title: 'Sign in failed',
-        defaultActionText: 'OK',
       );
-      print(e.toString());
     } finally {
       setState(() {
         _isLoading = false;
