@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:perfect_time_tracker/app/home_page.dart';
+import 'package:perfect_time_tracker/app/home/jobs_page.dart';
 import 'package:perfect_time_tracker/app/sign_in/sign_in_page.dart';
 import 'package:perfect_time_tracker/services/auth.dart';
+import 'package:perfect_time_tracker/services/database.dart';
 import 'package:provider/provider.dart';
 
 class LandingPage extends StatelessWidget {
@@ -22,7 +23,10 @@ class LandingPage extends StatelessWidget {
           if (user == null) {
             return SignInPage.create(context);
           } else {
-            return HomePage();
+            return Provider<Database>(
+              child: JobsPage(),
+              create: (_) => FirestoreDatabase(uid: user.uid),
+            );
           }
         }
         return const Scaffold(
