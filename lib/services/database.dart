@@ -1,40 +1,28 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:perfect_time_tracker/app/home/models/job.dart';
 import 'package:perfect_time_tracker/services/api_path.dart';
+import 'package:perfect_time_tracker/services/firestore_service.dart';
 
 abstract class Database {
-  Future<void> createJob(Job job);
+  Future<void> setJob(Job job);
   Stream<List<Job>> jobsStream();
 }
+
+String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 class FirestoreDatabase implements Database {
   FirestoreDatabase({@required this.uid}) : assert(uid != null);
   final String uid;
 
-  @override
-  Future<void> createJob(Job job) =>
-      setData(path: APIPath.job(uid, 'job_abc'), data: job.toMap());
+  final _service = FirestoreService.instance;
 
   @override
-  Stream<List<Job>> jobsStream() {
-    final path = APIPath.jobs(uid);
-    final reference = FirebaseFirestore.instance.collection(path);
-    final snapshots = reference.snapshots();
-    return snapshots.map((snapshot) => snapshot.docs.map((e) {
-          final data = e.data();
-          return data != null
-              ? Job(
-                  name: data['name'],
-                  ratePerHour: data['ratePerHour'],
-                )
-              : null;
-        }).toList());
-  }
+  Future<void> setJob(Job job) =>
+      _service.setData(path: APIPath.job(uid, job.id), data: job.toMap());
 
-  Future<void> setData({String path, Map<String, dynamic> data}) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    print('$path: $data');
-    await reference.set(data);
-  }
+  @override
+  Stream<List<Job>> jobsStream() => _service.collectionStream(
+        path: APIPath.jobs(uid),
+        builder: (data, documentId) => Job.fromMap(data, documentId),
+      );
 }
