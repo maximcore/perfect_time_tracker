@@ -17,7 +17,7 @@ class EntryPage extends StatefulWidget {
 
   static Future<void> show(
       {BuildContext context, Database database, Job job, Entry entry}) async {
-    await Navigator.of(context).push(
+    await Navigator.of(context, rootNavigator: true).push(
       MaterialPageRoute(
         builder: (context) =>
             EntryPage(database: database, job: job, entry: entry),
@@ -87,10 +87,10 @@ class _EntryPageState extends State<EntryPage> {
         elevation: 2.0,
         title: Text(widget.job.name),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(
               widget.entry != null ? 'Update' : 'Create',
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
+              style: const TextStyle(fontSize: 18.0, color: Colors.white),
             ),
             onPressed: () => _setEntryAndDismiss(context),
           )
@@ -98,7 +98,7 @@ class _EntryPageState extends State<EntryPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +144,7 @@ class _EntryPageState extends State<EntryPage> {
       children: <Widget>[
         Text(
           'Duration: $durationFormatted',
-          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+          style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
