@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:perfect_time_tracker/app/home/home_page.dart';
 import 'package:perfect_time_tracker/app/home/jobs/jobs_page.dart';
 import 'package:perfect_time_tracker/app/sign_in/sign_in_page.dart';
 import 'package:perfect_time_tracker/services/auth.dart';
@@ -24,7 +25,7 @@ class LandingPage extends StatelessWidget {
             return SignInPage.create(context);
           } else {
             return Provider<Database>(
-              child: JobsPage(),
+              child: const HomePage(),
               create: (_) => FirestoreDatabase(uid: user.uid),
             );
           }
