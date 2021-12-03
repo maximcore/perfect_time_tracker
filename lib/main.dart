@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.indigo,
         ),
-        home: LandingPage(),
+        home: const LandingPage(),
       ),
     );
   }
