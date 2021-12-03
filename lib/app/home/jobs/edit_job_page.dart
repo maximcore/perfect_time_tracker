@@ -4,7 +4,6 @@ import 'package:perfect_time_tracker/app/home/models/job.dart';
 import 'package:perfect_time_tracker/common_widgets/show_alert_dialog.dart';
 import 'package:perfect_time_tracker/common_widgets/show_exception_alert_dialog.dart';
 import 'package:perfect_time_tracker/services/database.dart';
-import 'package:provider/provider.dart';
 
 class EditJobPage extends StatefulWidget {
   const EditJobPage({Key key, @required this.database, this.job})
@@ -13,8 +12,8 @@ class EditJobPage extends StatefulWidget {
   final Database database;
   final Job job;
 
-  static Future<void> show(BuildContext context, {Job job}) async {
-    final database = Provider.of<Database>(context, listen: false);
+  static Future<void> show(BuildContext context,
+      {Database database, Job job}) async {
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => EditJobPage(
