@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 class Job {
@@ -11,6 +12,9 @@ class Job {
       return null;
     }
     final String name = data['name'];
+    if (name == null) {
+      return null;
+    }
     final int ratePerHour = data['ratePerHour'];
     return Job(id: documentId, name: name, ratePerHour: ratePerHour);
   }
@@ -21,4 +25,24 @@ class Job {
       'ratePerHour': ratePerHour,
     };
   }
+
+  @override
+  int get hashCode => hashValues(id, name, ratePerHour);
+
+  @override
+  bool operator ==(other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (runtimeType != other.runtimeType) {
+      return false;
+    }
+    final Job otherJob = other;
+    return id == otherJob.id &&
+        name == otherJob.name &&
+        ratePerHour == otherJob.ratePerHour;
+  }
+
+  @override
+  String toString() => 'id: $id, name: $name, ratePerHour: $ratePerHour';
 }
