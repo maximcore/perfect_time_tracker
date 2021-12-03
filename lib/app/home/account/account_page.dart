@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:perfect_time_tracker/common_widgets/avatar.dart';
 import 'package:perfect_time_tracker/common_widgets/show_alert_dialog.dart';
 import 'package:perfect_time_tracker/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -29,8 +31,31 @@ class AccountPage extends StatelessWidget {
     }
   }
 
+  Widget _buildUserInfo(User user) {
+    return Column(
+      children: [
+        Avatar(
+          photoUrl: user.photoURL,
+          radius: 50.0,
+        ),
+        const SizedBox(
+          height: 8.0,
+        ),
+        if (user.displayName != null)
+          Text(
+            user.displayName,
+            style: const TextStyle(color: Colors.white),
+          ),
+        const SizedBox(
+          height: 8.0,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthBase>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Account'),
@@ -46,6 +71,10 @@ class AccountPage extends StatelessWidget {
             ),
           ),
         ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(130),
+          child: _buildUserInfo(auth.currentUser),
+        ),
       ),
     );
   }
